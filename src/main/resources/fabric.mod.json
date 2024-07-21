@@ -1,16 +1,18 @@
 {
   "schemaVersion": 1,
-  "id": "examplemod",
+  "id": "eclipsegaming",
   "version": "${version}",
 
-  "name": "Example Mod",
-  "description": "This mod aims to help new BTA modders.",
+  "name": "Eclipse Gaming",
+  "description": "A mod for the EclipseGaming mini-games server.",
   "authors": [
-    "Turnip Labs"
+    "Apollointhehouse",
+		"Bigjango13",
+		"Lusii"
   ],
   "contact": {
-    "homepage": "",
-    "sources": ""
+    "homepage": "https://github.com/Apollointhehouse/EclipseGaming",
+    "sources": "https://github.com/Apollointhehouse/EclipseGaming"
   },
 
   "license": "CC0-1.0",
@@ -20,36 +22,18 @@
     "main": [
       {
         "adapter": "kotlin",
-        "value": "turniplabs.examplemod.ExampleMod"
+        "value": "eclipsegaming.EclipseGaming"
       }
-    ],
-    "beforeGameStart": [
-      {
-        "adapter": "kotlin",
-        "value": "turniplabs.examplemod.ExampleMod"
-      }
-		],
-    "afterGameStart": [
-      {
-        "adapter": "kotlin",
-        "value": "turniplabs.examplemod.ExampleMod"
-      }
-		],
-    "recipesReady": [
-      {
-        "adapter": "kotlin",
-        "value": "turniplabs.examplemod.ExampleMod"
-      }
-		]
+    ]
   },
   "mixins": [
-    "examplemod.mixins.json"
+    "eclipsegaming.mixins.json"
   ],
 
   "depends": {
 		"minecraft": "^7.2-beta",
     "fabricloader": ">=0.15.5",
-    "fabric-language-kotlin": "*"
+    "fabric-language-kotlin": "1.11.0"
   },
   "suggests": {
   }
