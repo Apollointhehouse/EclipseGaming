@@ -24,6 +24,12 @@
         "adapter": "kotlin",
         "value": "eclipsegaming.EclipseGaming"
       }
+    ],
+		"beforeGameStart": [
+      {
+        "adapter": "kotlin",
+        "value": "eclipsegaming.EclipseGaming"
+      }
     ]
   },
   "mixins": [
