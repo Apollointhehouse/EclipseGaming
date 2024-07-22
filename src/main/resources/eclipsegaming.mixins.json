@@ -6,7 +6,8 @@
   "mixins": [
     "DimensionMixin",
     "Packet1LoginMixin",
-    "Packet9RespawnMixin"
+    "Packet9RespawnMixin",
+    "PlayerListMixin"
   ],
   "client": [
   ],

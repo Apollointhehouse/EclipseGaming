@@ -1,6 +1,7 @@
 package eclipsegaming
 
 import eclipsegaming.commands.GameCommand
+import eclipsegaming.commands.LeaveCommand
 import eclipsegaming.minigames.MiniGame
 import eclipsegaming.minigames.Spleef
 import net.fabricmc.api.ModInitializer
@@ -22,6 +23,7 @@ object EclipseGaming: ModInitializer, GameStartEntrypoint {
 	override fun onInitialize() {
 		LOGGER.info("Eclipse Gaming Initialised!")
 		CommandHelper.createCommand(GameCommand())
+		CommandHelper.createCommand(LeaveCommand())
 	}
 
 
