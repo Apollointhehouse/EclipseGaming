@@ -1,6 +1,7 @@
 package eclipsegaming.commands
 
 import eclipsegaming.EclipseGaming
+import eclipsegaming.MiniGameManager
 import net.minecraft.core.net.command.Command
 import net.minecraft.core.net.command.CommandHandler
 import net.minecraft.core.net.command.CommandSender
@@ -28,8 +29,9 @@ class GameCommand : Command("game") {
 			return true
 		}
 
-		sender.sendMessage("Teleporting to game: $name")
-		server.playerList.sendPlayerToOtherDimension(player, dimension.id)
+		//sender.sendMessage("Teleporting to game: $name")
+		MiniGameManager.addPlayer(game, player)
+		//server.playerList.sendPlayerToOtherDimension(player, dimension.id)
 
 		return true
 	}

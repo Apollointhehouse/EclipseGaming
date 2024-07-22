@@ -1,5 +1,6 @@
 package eclipsegaming.commands
 
+import eclipsegaming.MiniGameManager
 import net.minecraft.core.net.command.Command
 import net.minecraft.core.net.command.CommandHandler
 import net.minecraft.core.net.command.CommandSender
@@ -18,7 +19,8 @@ class LeaveCommand : Command("leave") {
 		}
 
 		sender.sendMessage("Leaving...")
-		MinecraftServer.getInstance().playerList.sendPlayerToOtherDimension(player, 0)
+		MiniGameManager.removePlayer(player)
+		//MinecraftServer.getInstance().playerList.sendPlayerToOtherDimension(player, 0)
 
 		return true
 	}
