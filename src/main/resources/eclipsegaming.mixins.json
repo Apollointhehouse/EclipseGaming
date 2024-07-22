@@ -4,7 +4,9 @@
   "package": "eclipsegaming.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "DimensionMixin"
+    "DimensionMixin",
+    "Packet1LoginMixin",
+    "Packet9RespawnMixin"
   ],
   "client": [
   ],

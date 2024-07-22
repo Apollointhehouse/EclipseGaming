@@ -15,11 +15,13 @@ object EclipseGaming: ModInitializer, GameStartEntrypoint {
 	@JvmField val LOGGER: Logger = LoggerFactory.getLogger(MOD_ID)
 	@JvmField val games = mutableListOf<MiniGame>()
 
+	init {
+		games.add(Spleef())
+	}
+
 	override fun onInitialize() {
 		LOGGER.info("Eclipse Gaming Initialised!")
 		CommandHelper.createCommand(GameCommand())
-
-		games.add(Spleef())
 	}
 
 
