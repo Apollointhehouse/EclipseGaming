@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "DimensionMixin",
+    "MinecraftServerMixin",
     "Packet1LoginMixin",
     "Packet9RespawnMixin",
     "PlayerListMixin"

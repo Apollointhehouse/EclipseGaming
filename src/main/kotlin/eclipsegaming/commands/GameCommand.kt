@@ -5,7 +5,6 @@ import eclipsegaming.MiniGameManager
 import net.minecraft.core.net.command.Command
 import net.minecraft.core.net.command.CommandHandler
 import net.minecraft.core.net.command.CommandSender
-import net.minecraft.server.MinecraftServer
 import net.minecraft.server.entity.player.EntityPlayerMP
 
 class GameCommand : Command("game") {
@@ -21,17 +20,10 @@ class GameCommand : Command("game") {
 				sender.sendMessage("Game not found")
 				return true
 			}
-		val dimension = game.dimension
 
-		val server = MinecraftServer.getInstance()
-		val player = sender.player as? EntityPlayerMP ?: run {
-			sender.sendMessage("Cast `sender as EntityPlayerMP` failed")
-			return true
-		}
+		val player = sender.player as? EntityPlayerMP ?: return true
 
-		//sender.sendMessage("Teleporting to game: $name")
 		MiniGameManager.addPlayer(game, player)
-		//server.playerList.sendPlayerToOtherDimension(player, dimension.id)
 
 		return true
 	}

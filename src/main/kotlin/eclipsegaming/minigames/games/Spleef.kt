@@ -1,5 +1,6 @@
-package eclipsegaming.minigames
+package eclipsegaming.minigames.games
 
+import eclipsegaming.minigames.MiniGame
 import net.minecraft.core.block.Block
 import net.minecraft.core.item.Item
 import net.minecraft.server.entity.player.EntityPlayerMP
@@ -8,12 +9,12 @@ class Spleef : MiniGame(name = "Spleef", minPlayers = 3) {
 
 	private val platformY = 80
 
-	override fun onGameStarted(miniGameInstance: MiniGameInstance) {
-		super.onGameStarted(miniGameInstance)
+	override fun onGameStarted() {
+		super.onGameStarted()
 
 		for (x in -15..15) {
 			for (z in -15..15) {
-				miniGameInstance.world.setBlock(x, platformY, z, Block.blockSnow.id)
+				world.setBlock(x, platformY, z, Block.blockSnow.id)
 			}
 		}
 	}

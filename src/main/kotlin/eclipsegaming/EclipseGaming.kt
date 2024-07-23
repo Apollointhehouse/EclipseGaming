@@ -3,7 +3,7 @@ package eclipsegaming
 import eclipsegaming.commands.GameCommand
 import eclipsegaming.commands.LeaveCommand
 import eclipsegaming.minigames.MiniGame
-import eclipsegaming.minigames.Spleef
+import eclipsegaming.minigames.games.Spleef
 import net.fabricmc.api.ModInitializer
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -28,9 +28,6 @@ object EclipseGaming: ModInitializer, GameStartEntrypoint {
 
 
 	override fun beforeGameStart() {
-//		for (game in games) {
-//			Dimension.registerDimension(game.dimension.id, game.dimension)
-//		}
 	}
 
 	override fun afterGameStart() {

@@ -1,62 +1,59 @@
 package eclipsegaming
 
 import eclipsegaming.minigames.MiniGame
-import eclipsegaming.minigames.MiniGameInstance
 import net.minecraft.server.entity.player.EntityPlayerMP
 
 object MiniGameManager {
-	private val miniGames = mutableMapOf<MiniGame, MiniGameInstance>()
-	private val playerMiniGameMap = mutableMapOf<EntityPlayerMP, MiniGameInstance>()
+	private val games = mutableListOf<MiniGame>()
+	private val playerGame = mutableMapOf<EntityPlayerMP, MiniGame>()
 
-	private fun getMinigameWithPlayer(player: EntityPlayerMP): MiniGameInstance? = playerMiniGameMap[player]
-	private fun isMinigameRunning(miniGame: MiniGame): Boolean = miniGames.containsKey(miniGame)
+	private val MiniGame.isRunning: Boolean get () = games.contains(this)
+	private var EntityPlayerMP.game: MiniGame?
+		get() = playerGame[this]
+		set(value) {
+			if (value == null) playerGame.remove(this)
+			else playerGame[this] = value
+		}
 
-	private fun startMinigame(miniGame: MiniGame) {
-		if (isMinigameRunning(miniGame)) return
+	private fun startMinigame(game: MiniGame) {
+		if (game.isRunning) return
 
-		EclipseGaming.LOGGER.info("Starting game: ${miniGame.name}")
-		miniGames[miniGame] = MiniGameInstance(miniGame)
-		miniGames[miniGame]?.startGame()
+		EclipseGaming.LOGGER.info("Starting game: ${game.name}")
+		games.add(game)
+		game.startGame()
 	}
 
-	private fun stopMinigame(miniGame: MiniGame) {
-		if (!isMinigameRunning(miniGame)) return
+	private fun stopMinigame(game: MiniGame) {
+		if (!game.isRunning) return
 
-		EclipseGaming.LOGGER.info("Stopping game: ${miniGame.name}")
-		miniGames[miniGame]?.endGame()
-		miniGames.remove(miniGame)
+		EclipseGaming.LOGGER.info("Stopping game: ${game.name}")
+		game.endGame()
+		games.remove(game)
 	}
 
-	fun addPlayer(miniGame: MiniGame, player: EntityPlayerMP) {
-		if (getMinigameWithPlayer(player) != null) {
+	fun addPlayer(game: MiniGame, player: EntityPlayerMP) {
+		if (player.game != null) {
 			EclipseGaming.LOGGER.error("Player ${player.username} is already in minigame!")
 			return
 		}
 
-		if (!isMinigameRunning(miniGame)) {
-			startMinigame(miniGame)
+		if (!game.isRunning) {
+			startMinigame(game)
 		}
 
-		playerMiniGameMap[player] = miniGames[miniGame]!!
-		playerMiniGameMap[player]?.addPlayer(player)
+		player.game = game
+		player.game?.addPlayer(player)
 	}
 
 	fun removePlayer(player: EntityPlayerMP) {
-		val miniGameInstance = getMinigameWithPlayer(player) ?: return
+		val game = player.game ?: return
 
-		miniGameInstance.removePlayer(player)
-		playerMiniGameMap.remove(player)
+		game.removePlayer(player)
+		player.game = null
 		player.setPos(0.0, 150.0, 0.0)
 
-		if (miniGameInstance.getPlayerCount() == 0) {
-			stopMinigame(miniGameInstance.game)
+		if (game.playerCount == 0) {
+			stopMinigame(game)
 		}
 	}
-
-	fun tick() {
-		miniGames.forEach { (_, miniGameInstance) ->
-			miniGameInstance.tick()
-		}
-	}
-
 }
