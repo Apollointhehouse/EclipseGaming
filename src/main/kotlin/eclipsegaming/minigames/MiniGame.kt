@@ -1,6 +1,7 @@
 package eclipsegaming.minigames
 
 import eclipsegaming.EclipseGaming.LOGGER
+import net.minecraft.core.player.gamemode.Gamemode
 import net.minecraft.core.world.Dimension
 import net.minecraft.core.world.type.WorldTypes
 import net.minecraft.server.entity.player.EntityPlayerMP
@@ -15,24 +16,28 @@ abstract class MiniGame(val name: String, val minPlayers: Int) {
 		private var prevID = 3
 	}
 
-	fun tick() {
+	open fun tick() {
 
 	}
 
-	fun onGameStarted() {
+	open fun onGameStarted(miniGameInstance: MiniGameInstance) {
+		miniGameInstance.world.worldTime = 6000 // noon
+	}
+
+	open fun onGameEnded() {
 
 	}
 
-	fun onGameEnded() {
-
-	}
-
-	fun onPlayerAdded(player: EntityPlayerMP) {
+	open fun onPlayerAdded(player: EntityPlayerMP) {
 		player.sendMessage("Joined $name")
 	}
 
-	fun onPlayerRemoved(player: EntityPlayerMP) {
+	open fun onPlayerRemoved(player: EntityPlayerMP) {
 		player.sendMessage("Left $name")
+	}
+
+	open fun getGamemode(gameInstance: MiniGameInstance): Gamemode {
+		return Gamemode.adventure;
 	}
 
 }

@@ -14,12 +14,16 @@ object MiniGameManager {
 	private fun startMinigame(miniGame: MiniGame) {
 		if (isMinigameRunning(miniGame)) return
 
+		EclipseGaming.LOGGER.info("Starting game: ${miniGame.name}")
 		miniGames[miniGame] = MiniGameInstance(miniGame)
+		miniGames[miniGame]?.startGame()
 	}
 
 	private fun stopMinigame(miniGame: MiniGame) {
 		if (!isMinigameRunning(miniGame)) return
 
+		EclipseGaming.LOGGER.info("Stopping game: ${miniGame.name}")
+		miniGames[miniGame]?.endGame()
 		miniGames.remove(miniGame)
 	}
 
@@ -42,6 +46,7 @@ object MiniGameManager {
 
 		miniGameInstance.removePlayer(player)
 		playerMiniGameMap.remove(player)
+		player.setPos(0.0, 150.0, 0.0)
 
 		if (miniGameInstance.getPlayerCount() == 0) {
 			stopMinigame(miniGameInstance.game)

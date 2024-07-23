@@ -5,8 +5,18 @@ import net.minecraft.server.entity.player.EntityPlayerMP
 
 class MiniGameInstance(val game: MiniGame) {
 	private val mc = MinecraftServer.getInstance()
-	private val players = mutableSetOf<EntityPlayerMP>()
-	private var gameState = MiniGameState.WAITING
+
+	val world = mc.dimensionWorlds[game.dimension.id]
+	val players = mutableSetOf<EntityPlayerMP>()
+	var gameState = MiniGameState.WAITING
+
+	fun startGame() {
+		game.onGameStarted(this)
+	}
+
+	fun endGame() {
+		game.onGameEnded()
+	}
 
 	fun tick() {
 		if (gameState == MiniGameState.ACTIVE) {
@@ -17,6 +27,7 @@ class MiniGameInstance(val game: MiniGame) {
 	fun addPlayer(player: EntityPlayerMP) {
 		players.add(player)
 
+		player.setGamemode(game.getGamemode(this))
 		mc.playerList.sendPlayerToOtherDimension(player, game.dimension.id)
 
 		game.onPlayerAdded(player)
