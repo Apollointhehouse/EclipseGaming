@@ -1,59 +1,45 @@
 package eclipsegaming
 
+import eclipsegaming.EclipseGaming.LOGGER
+import eclipsegaming.events.EventHandler
+import eclipsegaming.events.EventManager
+import eclipsegaming.events.entity.DamageEvent
 import eclipsegaming.minigames.MiniGame
+import eclipsegaming.utils.PlayerExtensions.game
+import net.minecraft.core.player.gamemode.Gamemode
 import net.minecraft.server.entity.player.EntityPlayerMP
 
 object MiniGameManager {
-	private val games = mutableListOf<MiniGame>()
-	private val playerGame = mutableMapOf<EntityPlayerMP, MiniGame>()
-
-	private val MiniGame.isRunning: Boolean get () = games.contains(this)
-	private var EntityPlayerMP.game: MiniGame?
-		get() = playerGame[this]
-		set(value) {
-			if (value == null) playerGame.remove(this)
-			else playerGame[this] = value
-		}
-
-	private fun startMinigame(game: MiniGame) {
-		if (game.isRunning) return
-
-		EclipseGaming.LOGGER.info("Starting game: ${game.name}")
-		games.add(game)
-		game.startGame()
-	}
-
-	private fun stopMinigame(game: MiniGame) {
-		if (!game.isRunning) return
-
-		EclipseGaming.LOGGER.info("Stopping game: ${game.name}")
-		game.endGame()
-		games.remove(game)
+	init {
+	    EventManager.subscribe(this)
 	}
 
 	fun addPlayer(game: MiniGame, player: EntityPlayerMP) {
-		if (player.game != null) {
-			EclipseGaming.LOGGER.error("Player ${player.username} is already in minigame!")
+		if (!game.addPlayer(player)) {
+			LOGGER.error("Failed to add player ${player.username} to minigame!")
 			return
 		}
-
-		if (!game.isRunning) {
-			startMinigame(game)
-		}
-
 		player.game = game
-		player.game?.addPlayer(player)
+		player.sendMessage("Joined ${game.name} queue")
 	}
 
 	fun removePlayer(player: EntityPlayerMP) {
 		val game = player.game ?: return
 
 		game.removePlayer(player)
-		player.game = null
-		player.setPos(0.0, 150.0, 0.0)
+		player.setPos(0.0, 12.0, 0.0)
+		player.setGamemode(Gamemode.adventure)
+		player.heal(20 - player.health)
+	}
 
-		if (game.playerCount == 0) {
-			stopMinigame(game)
+	@EventHandler
+	fun onDamage(event: DamageEvent) {
+		val player = event.entity as? EntityPlayerMP ?: return
+		val game = player.game ?: return
+
+		if (event.amount >= player.health) {
+			game.onPlayerDie(player)
+			event.cancel()
 		}
 	}
 }

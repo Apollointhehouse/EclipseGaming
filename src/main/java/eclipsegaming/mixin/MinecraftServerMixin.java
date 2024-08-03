@@ -22,4 +22,9 @@ abstract public class MinecraftServerMixin {
 		TickEvent.Post event = new TickEvent.Post(server);
 		event.call();
 	}
+
+//	@Inject(method = "initWorld", at = @At(value = "INVOKE", target = "Lorg/apache/log4j/Logger;info(Ljava/lang/Object;)V", shift = At.Shift.BEFORE))
+//	public void fixPreLoadDim(ISaveFormat saveFormat, String worldDirName, long l, CallbackInfo ci, @Local(ordinal = 1) int j) {
+//
+//	}
 }

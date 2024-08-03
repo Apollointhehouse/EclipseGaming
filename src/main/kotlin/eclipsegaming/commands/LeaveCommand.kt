@@ -19,7 +19,6 @@ class LeaveCommand : Command("leave") {
 
 		sender.sendMessage("Leaving...")
 		MiniGameManager.removePlayer(player)
-		//MinecraftServer.getInstance().playerList.sendPlayerToOtherDimension(player, 0)
 
 		return true
 	}

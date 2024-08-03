@@ -5,10 +5,13 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "DimensionMixin",
+    "EntityLivingMixin",
     "MinecraftServerMixin",
+    "NetLoginHandlerMixin",
+    "NetServerHandlerMixin",
+    "NetworkManagerMixin",
     "Packet1LoginMixin",
-    "Packet9RespawnMixin",
-    "PlayerListMixin"
+    "Packet9RespawnMixin"
   ],
   "client": [
   ],

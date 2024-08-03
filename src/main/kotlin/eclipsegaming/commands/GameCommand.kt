@@ -23,6 +23,7 @@ class GameCommand : Command("game") {
 
 		val player = sender.player as? EntityPlayerMP ?: return true
 
+		MiniGameManager.removePlayer(player)
 		MiniGameManager.addPlayer(game, player)
 
 		return true

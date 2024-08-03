@@ -26,7 +26,6 @@ object EclipseGaming: ModInitializer, GameStartEntrypoint {
 		CommandHelper.createCommand(LeaveCommand())
 	}
 
-
 	override fun beforeGameStart() {
 	}
 
